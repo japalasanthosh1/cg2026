@@ -46,7 +46,7 @@ const globalLimiter = rateLimit({
 
 const applyLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
-  max: 5, // Limit each IP to 5 applications per hour
+  max: 50, // Limit each IP to 50 applications per hour
   message: { error: 'Application limit reached. Please try again later.' }
 });
 
@@ -74,9 +74,9 @@ app.post('/api/apply', applyLimiter, [
   body('type').isString().trim().escape(),
   body('org').isString().trim().escape(),
   body('role').isString().trim().escape(),
-  body('linkedin').optional({ checkFalsy: true }).isURL({ require_tld: false }),
-  body('github').optional({ checkFalsy: true }).isURL({ require_tld: false }),
-  body('portfolio').optional({ checkFalsy: true }).isURL({ require_tld: false }),
+  body('linkedin').optional({ checkFalsy: true }).isString().trim(),
+  body('github').optional({ checkFalsy: true }).isString().trim(),
+  body('portfolio').optional({ checkFalsy: true }).isString().trim(),
   body('interests').isArray(),
   body('interests.*').isString().trim().escape(),
   body('status').isString().trim().escape(),
